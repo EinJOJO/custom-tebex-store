@@ -6,10 +6,13 @@ import { TebexHeadless, type Basket } from "tebex_headless"
 
 export const storeID = env.PUBLIC_TEBEX_WEBSTORE_ID || "undefined"
 export const tebex = new TebexHeadless(storeID)
+
 export let customer: {
+    cartOpen: boolean
     username: string | undefined
     basket: Basket | undefined
 } =  $state({
+    cartOpen: false,
     username: undefined,
     basket: undefined
 })
@@ -77,15 +80,12 @@ export async function addProductToBasket(packageID: number, quantity: number) {
         error: "Failed to add to basket"
     })
     customer.basket = await promise;
-    $host().dispatchEvent(new CustomEvent("basketupdate"))
-    
-
+    customer.cartOpen = true        
 }
 
 export async function removeProductFromBasket(packageID: number) {
     if (!customer.basket) {
         throw new Error("Basket is not initialized")
     }
-    customer.basket = await tebex.removePackage(customer.basket.ident, packageID)
-    $host().dispatchEvent(new CustomEvent("basketupdate"))
+    customer.basket = await tebex.removePackage(customer.basket.ident, packageID) 
 }

@@ -2,15 +2,22 @@
 	import { addProductToBasket, customer } from '$lib/tebex.svelte';
 	import { fade, fly } from 'svelte/transition';
 
-	let sidebar = $state(false);
+	let sidebar = $derived(customer.cartOpen);
 
+function toggle() {
+	customer.cartOpen = !customer.cartOpen;
+}
+
+function close() {
+	customer.cartOpen = false;
+}
 </script>
 
 <div class="fixed top-[4rem] right-[2rem]" >
 	<button
 		class=" rounded-lg bg-emerald-400 p-4"
 		aria-label="cart"
-		onclick={() => (sidebar = !sidebar)}
+		onclick={toggle}
 	>
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
 			<path
@@ -27,7 +34,7 @@
 	>
 		<div class="flex justify-between items-baseline">
 			<h2 class="text-2xl font-semibold text-zinc-50">Cart</h2>
-			<button onclick={() => sidebar = false} class="text-2xl text-zinc-500">x</button>
+			<button onclick={close} class="text-2xl text-zinc-500">x</button>
 		</div>
 		{#if !!customer.basket}
 			<div class="flex flex-col gap-4">
