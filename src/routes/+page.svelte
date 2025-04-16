@@ -7,22 +7,29 @@
 	import Cart from './Cart.svelte';
 	import Login from './Login.svelte';
 	import toast from 'svelte-french-toast';
+	import Highlight from './Highlight.svelte';
+	import type { PageProps } from './$types';
+	import type { Package } from 'tebex_headless';
+    const { data }: PageProps = $props();
+    const products :Package[] = data.products;
     let loginModal = $state(false)
+    let recentClickedItem: number = -1;
 
     let loadingPromise: Promise<any> | undefined = $state(undefined);
 	onMount(() => {
 		loadingPromise = loadFromLocalStorage();
 	})
-    function addToCart() {
+    function addToCart(itemId: number) {
         if (!!customer.username ) {
-            addProductToBasket(6628163, 1)
+            addProductToBasket(itemId, 1)
         } else {
             loginModal = true
+            recentClickedItem = itemId
         }
     }
 
     function onFinish() {
-        addProductToBasket(6628163, 1)
+        addProductToBasket(recentClickedItem, 1)
         loginModal = false
         
     }
@@ -53,24 +60,24 @@
             <line opacity="0.2" x1="511.646" y1="339.28" x2="843.28" y2="7.64644" stroke="white"/>
             </svg>
             
-        <h1 class="text-5xl  font-black leading-none text-teal-50">INCREASE SALES <br/> AND PROFESSIONALISM</h1>
-        <p class="text-2xl text-zinc-50 mt-8 tracking-tight ">
+        <h1 class="text-4xl md:text-5xl  font-black leading-none text-teal-50">INCREASE SALES <br/> AND PROFESSIONALISM</h1>
+        <p class="text-lg md:text-2xl text-zinc-50 mt-8 tracking-tight ">
             Build a strong, recognizable brand <br/>
             Gain customer trust at first glance <br/>
             Fast, mobile-friendly design <br/>
         </p>
         <div class="flex flex-wrap  gap-4 my-16 lg:mt-0 lg:absolute -right-[194px] top-[4px]">
             <div class="bg-teal-800 shadow-xl flex flex-col justify-between  border-l border-teal-700 py-4 px-8">
-                <p class="text-teal-300 text-2xl ">sales</p>
-                <p class="text-teal-300 text-2xl font-medium">+98%</p>
+                <p class="text-teal-300 text-lg md:text-2xl ">sales</p>
+                <p class="text-teal-300 text-lg md:text-2xl font-medium">+98%</p>
             </div>
             <div class="bg-teal-800 shadow-xl border-l flex flex-col justify-between border-teal-700  py-4 px-8">
-                <p class="text-teal-300 text-2xl ">returning <br> customers</p>
-                <p class="text-teal-300 text-2xl md:mt-4 font-medium">+47%</p>
+                <p class="text-teal-300 text-lg md:text-2xl ">returning <br> customers</p>
+                <p class="text-teal-300 text-lg md:text-2xl md:mt-4 font-medium">+47%</p>
             </div>
             <div class="bg-teal-800 relative shadow-xl border-l flex flex-col justify-between border-teal-700  py-4 px-8">
-                <p class="text-teal-300 text-2xl ">saved <br/> money</p>
-                <p class="text-teal-300 text-2xl md:mt-4 font-medium">-12$ / m</p>
+                <p class="text-teal-300 text-lg md:text-2xl ">saved <br/> money</p>
+                <p class="text-teal-300 text-lg md:text-2xl md:mt-4 font-medium">-12$ / m</p>
                 <div class="absolute -bottom-6 left-0">
                     <p class="text-xs text-teal-600  ">Tebex Plus not required</p>
                 </div>
@@ -99,11 +106,13 @@
         <button class="text-zinc-400 text-center font-medium text-xl hover:underline hover:text-zinc-300">How does this work?</button>
     </div>
     <div class="flex justify-center mt-8 gap-8 flex-wrap max-w-5xl mx-auto">
-            {@render item(5)}
-            {@render item(10)}
-            {@render item(18)}
+            {#each products as _item }
+                {@render item(_item)} 
+            {/each}
+            
     </div>
-    
+
+    <Highlight />    
 </main>
 
 
@@ -116,17 +125,17 @@
 </style>
 
 
-{#snippet item(price = 2)}
+{#snippet item(item: Package)}
 <div class="h-[30rem] bg-teal-100 max-w-[18rem] flex flex-col p-8 justify-between rounded-lg shadow">
     <img src="https://dunb17ur4ymx4.cloudfront.net/packages/images/8f14e89c72d4cb83f7734649102995ccf61e7bc2.png" alt="Logo" class="aspect-square max-w-xs">            
     
-    <h3 class="font-bold text-teal-950 text-center text-xl"><span class="text-2xl">{price * 1000} </span><br/> Coins</h3>
+    <h3 class="font-bold text-teal-950 text-center text-xl"><span class="text-2xl">{item.base_price * 1000} </span><br/> Coins</h3>
 
-    <button onclick={addToCart} class="bg-zinc-950 flex justify-center items-center gap-2 text-zinc-50 font-medium text-xl py-2 px-4 rounded-lg hover:bg-zinc-800 hover:text-zinc-200">
+    <button onclick={() => addToCart(item.id)} class="bg-zinc-950 flex justify-center items-center gap-2 text-zinc-50 font-medium text-xl py-2 px-4 rounded-lg hover:bg-zinc-800 hover:text-zinc-200">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
             <path d="M2.25 2.25a.75.75 0 0 0 0 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 0 0-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 0 0 0-1.5H5.378A2.25 2.25 0 0 1 7.5 15h11.218a.75.75 0 0 0 .674-.421 60.358 60.358 0 0 0 2.96-7.228.75.75 0 0 0-.525-.965A60.864 60.864 0 0 0 5.68 4.509l-.232-.867A1.875 1.875 0 0 0 3.636 2.25H2.25ZM3.75 20.25a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM16.5 20.25a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" />
           </svg>          
-        {price} EUR
+        {item.total_price} {item.currency}
         
     </button>
 </div>

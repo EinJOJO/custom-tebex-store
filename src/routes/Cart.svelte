@@ -30,7 +30,7 @@ function close() {
 
 	<div
 		transition:fly={{ x: 100 }}
-		class="fixed top-0 right-0 z-20 flex h-screen w-[30rem] flex-col gap-4 bg-zinc-900 p-8"
+		class="fixed top-0 right-0 z-20 flex h-screen sm:max-w-[30rem] w-full flex-col gap-4 bg-zinc-900 p-8"
 	>
 		<div class="flex justify-between items-baseline">
 			<h2 class="text-2xl font-semibold text-zinc-50">Cart</h2>
@@ -60,13 +60,24 @@ function close() {
 					</div>
 				{/each}
 			</div>
+			<div class="mt-auto text-center">
+				{#if !customer.basket.links.checkout}
+					<div class="text-zinc-600 ">
+						<svg xmlns="http://www.w3.org/2000/svg"  fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-12 mx-auto mb-4">
+							<path stroke-linecap="round" stroke-linejoin="round" d="m21 7.5-2.25-1.313M21 7.5v2.25m0-2.25-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3 2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75 2.25-1.313M12 21.75V19.5m0 2.25-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25" />
+						  </svg>
+					</div>
+				  
+					<p class="text-lg text-zinc-200">Add products to your cart</p>			
+				{/if}
+			</div>
 			<div class="mt-auto">
 				<div class="text-lg text-zinc-200 grid grid-cols-2">
-					<p>Subtotal:</p>
-					<p class="text-right text-zinc-300">{customer.basket.base_price} {customer.basket.currency}</p>					
-					<p>Tax:</p>
-					<p class="text-right text-zinc-300">{customer.basket.sales_tax} {customer.basket.currency}</p>
-					<p class="mt-4">Total:</p>
+					<p class="text-zinc-400">Subtotal:</p>
+					<p class="text-right text-zinc-400">{customer.basket.base_price.toFixed(2)} {customer.basket.currency}</p>					
+					<p class="text-zinc-400">Tax:</p>
+					<p class="text-right text-zinc-400">{customer.basket.sales_tax} {customer.basket.currency}</p>
+					<p class="mt-4 text-zinc-200">Total:</p>
 					<p class="mt-4 text-right font-bold">{customer.basket.total_price.toFixed(2)} {customer.basket.currency}</p>
 				</div>
 			
@@ -77,7 +88,6 @@ function close() {
 			<div class="flex items-center justify-center h-full">
 				<p class="text-xl text-zinc-300">Your cart is empty</p>
 			</div>
-		{/if}
-		
+		{/if}		
 	</div>
 {/if}
