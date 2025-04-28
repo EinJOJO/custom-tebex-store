@@ -10,6 +10,6 @@
 </script>
 
 <div class="flex items-center justify-center h-screen bg-zinc-900 text-white flex-col gap-8">
-    <h1 class="text-2xl block text-white font-bold">Order ID: {orderId}</h1> 
-    <a class="text-2xl block" href="/">Go back</a>
+    <h1 class="text-xl block text-white font-bold">Order ID: {orderId}</h1> 
+    <a class="text-xl block" href="/">Go back</a>
 </div>

@@ -41,7 +41,7 @@
 >
 <div class=" fixed z-[100] inset-x-0 top-1/3 mx-auto max-w-xl px-4">
 	<div class="rounded-lg border border-zinc-700 bg-zinc-900 p-4">
-		<h2 class="text-2xl font-semibold text-zinc-50">Enter your name</h2>
+		<h2 class="text-xl font-semibold text-zinc-50">Enter your name</h2>
 		<div class="mt-16 flex gap-8">
 			{#if loginPromise === undefined}
 				<img src={avatarUrl} alt="Avatar" class="w-16" />
@@ -57,7 +57,7 @@
 					/>
 				</div>
 			{:else}
-				<div class="text-2xl text-zinc-50">
+				<div class="text-xl text-zinc-50">
 					{#await loginPromise}
 						<p>Loading</p>
 					{:then res}

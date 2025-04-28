@@ -33,8 +33,8 @@ function close() {
 		class="fixed top-0 right-0 z-20 flex h-screen sm:max-w-[30rem] w-full flex-col gap-4 bg-zinc-900 p-8"
 	>
 		<div class="flex justify-between items-baseline">
-			<h2 class="text-2xl font-semibold text-zinc-50">Cart</h2>
-			<button onclick={close} class="text-2xl text-zinc-500">x</button>
+			<h2 class="text-xl font-semibold text-zinc-50">Cart</h2>
+			<button onclick={close} class="text-xl text-zinc-500">x</button>
 		</div>
 		{#if !!customer.basket}
 			<div class="flex flex-col gap-4">
@@ -82,7 +82,7 @@ function close() {
 				</div>
 			
 			
-			<a href={customer.basket.links.checkout}  class="mt-8 p-4 block text-center {!customer.basket.links.checkout ? 'opacity-50 cursor-not-allowed ' : ''}  w-full text-teal-950 bg-teal-300 text-2xl rounded-md font-medium">Checkout</a>
+			<a href={customer.basket.links.checkout}  class="mt-8 p-4 block text-center {!customer.basket.links.checkout ? 'opacity-50 cursor-not-allowed ' : ''}  w-full text-teal-950 bg-teal-300 text-xl rounded-md font-medium">Checkout</a>
 			</div>
 		{:else}
 			<div class="flex items-center justify-center h-full">
